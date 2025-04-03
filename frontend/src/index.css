@@ -1,0 +1,158 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Light and Dark Mode */
+.light {
+  background-color: #f9f9f9;
+  color: navy;
+}
+
+.dark {
+  background-color: #1e1e1e;
+  color: #3634d1;
+}
+
+/* Main Container */
+.container {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  border-color: #550b0b;
+  border-width: 10%;
+}
+
+/* Input Field */
+input[type="text"] {
+  width: 50%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  border-width: 0 cap;
+  border-color: #007bff;
+}
+
+/* Task List */
+.task-list {
+  list-style: none;
+  padding: 0;
+  color: rgb(221, 175, 114);
+}
+
+.task-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 25;
+  background: #fff;
+  transition: 0.3s;
+  color: rgb(56, 33, 3);
+}
+
+.task-list li.completed {
+  text-decoration: line-through;
+  color: rgb(151, 93, 93);
+  background: #110101;
+}
+
+/* Buttons */
+button {
+  padding: 8px 12px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  color: #41110c;
+  border-width: 0 cap;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+/* Edit Button */
+.edit-btn {
+  background-color: #79b85c;
+  color: black;
+  font-weight: bold;
+}
+
+.edit-btn:hover {
+  background-color: #6fa34f;
+}
+
+/* Save Button */
+.save-btn {
+  background-color: #28a745;
+  color: white;
+  font-weight: bold;
+  padding: 10px 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.save-btn:hover {
+  background-color: #218838;
+}
+
+/* Delete Button */
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  font-weight: bold;
+  padding: 10px 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+/* Dark Mode Button */
+.dark-mode-toggle {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+}
+
+.dark-mode-toggle:hover {
+  background-color: #0056b3;
+}
+
+/* Filter Buttons */
+.filter-buttons {
+  margin-top: 15px;
+  color: #75331f;
+}
+
+.filter-buttons button {
+  background-color: #ccc;
+  color: black;
+}
+
+.filter-buttons button.active {
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+}
+
+/* Checkbox */
+input[type="checkbox"] {
+  margin-right: 10px;
+}
