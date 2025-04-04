@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 
-const API_URL = "https://your-backend-service.onrender.com/api/todos/";
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000/api/todos/";
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
@@ -9,7 +9,6 @@ const App = () => {
   const [newTask, setNewTask] = useState("");
   const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true");
 
-  // Apply dark mode to the full window
   useEffect(() => {
     localStorage.setItem("darkMode", darkMode);
     document.body.classList.toggle("dark", darkMode);
