@@ -25,7 +25,10 @@ SECRET_KEY = "django-insecure-whg9&3s&k7h$z0x^s6b1p+x6u1mf@)f(fql&!!-8#r#xu1(xf&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://pit3-appdev.onrender.com']
+CORS_ALLOWED_ORIGINS = [
+    'https://patacjamaica1.github.io',
+    ]
 
 
 # Application definition
