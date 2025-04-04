@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000/api/todos/";
+const API_URL = process.env.REACT_APP_API_URL || "https://pit3-appdev.onrender.com/api/todos/";
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
@@ -17,6 +17,8 @@ const App = () => {
   useEffect(() => {
     fetchTasks();
   }, []);
+
+  
 
   const fetchTasks = async () => {
     try {
