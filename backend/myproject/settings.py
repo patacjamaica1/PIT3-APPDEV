@@ -16,19 +16,19 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
     "pit3-appdev.onrender.com",
-    "front-ended.netlify.app/",
+  
 ]
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
-    "https://patacjamaica1.github.io",
+  
     "https://front-ended.netlify.app",
-    "http://pit3-appdev.onrender.com",
+    
 ]
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 CORS_ALLOW_HEADERS = ["*"]
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = False  # Ensure it's explicitly set to False
+CORS_ALLOW_ALL_ORIGINS = True  # Ensure it's explicitly set to False
 
 # Application definition
 INSTALLED_APPS = [
@@ -45,9 +45,9 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",  # Serve static files in production
-    "corsheaders.middleware.CorsMiddleware",  # Ensure it's at the top
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # Serve static files in production # Ensure it's at the top
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware", 
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
