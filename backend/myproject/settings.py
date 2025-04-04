@@ -16,15 +16,14 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
     "pit3-appdev.onrender.com",
-    "todo-app-u6pm.onrender.com",
-    "todo-app-appdev.netlify.app",
+    "front-ended.netlify.app/",
 ]
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
     "https://patacjamaica1.github.io",
-    "https://todo-app-appdev.netlify.app",
-    "http://todo-app-u6pm.onrender.com",
+    "https://front-ended.netlify.app",
+    "http://pit3-appdev.onrender.com",
 ]
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 CORS_ALLOW_HEADERS = ["*"]
