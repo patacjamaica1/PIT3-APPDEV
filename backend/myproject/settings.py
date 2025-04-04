@@ -1,24 +1,35 @@
 import os
 from pathlib import Path
+import dj_database_url  # Ensure you have installed this package
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
+# SECURITY WARNING: Keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "your-default-secret-key")
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: Don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'pit3-appdev.onrender.com']
+# Allowed hosts
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "pit3-appdev.onrender.com",
+    "todo-app-u6pm.onrender.com",
+    "todo-app-appdev.netlify.app",
+]
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
-    'https://patacjamaica1.github.io',
+    "https://patacjamaica1.github.io",
+    "https://todo-app-appdev.netlify.app",
+    "http://todo-app-u6pm.onrender.com",
 ]
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 CORS_ALLOW_HEADERS = ["*"]
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = False  # Ensure it's explicitly set to False
 
 # Application definition
 INSTALLED_APPS = [
@@ -35,6 +46,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # Serve static files in production
     "corsheaders.middleware.CorsMiddleware",  # Ensure it's at the top
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -63,12 +75,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "myproject.wsgi.application"
 
-# Database
+# Database settings (Use PostgreSQL if deploying to Render)
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": dj_database_url.config(default=f"sqlite:///{BASE_DIR}/db.sqlite3")
 }
 
 # Password validation
@@ -87,7 +96,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"  # Required for deployment
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# WhiteNoise for serving static files in production
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
