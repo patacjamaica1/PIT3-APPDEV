@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 
-const API_URL = process.env.REACT_APP_API_URL || "https://pit3-appdev.onrender.com/api/todos/";
+const API_URL = "https://pit3-appdev.onrender.com/api/todos/";
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
@@ -14,15 +14,14 @@ const App = () => {
     document.body.classList.toggle("dark", darkMode);
   }, [darkMode]);
 
+  // Fetch tasks from the backend
   useEffect(() => {
     fetchTasks();
   }, []);
 
-  
-
   const fetchTasks = async () => {
     try {
-      const response = await fetch(API_URL);
+      const response = await fetch(`${API_URL}fetch/`);  // Use 'fetch/' endpoint
       if (!response.ok) throw new Error("Failed to fetch tasks");
       const data = await response.json();
       setTasks(data);
@@ -31,26 +30,28 @@ const App = () => {
     }
   };
 
+  // Add a new task
   const addTask = async () => {
     if (newTask.trim() === "") return;
     try {
-      await fetch(API_URL, {
+      await fetch(`${API_URL}create/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: newTask.trim(), completed: false }),
       });
-      fetchTasks();
+      fetchTasks();  // Refresh tasks after adding
       setNewTask("");
     } catch (error) {
       console.error("Error adding task:", error);
     }
   };
 
+  // Toggle task completion
   const toggleComplete = async (id) => {
     const task = tasks.find((task) => task.id === id);
     if (!task) return;
     try {
-      const response = await fetch(`${API_URL}${id}/`, {
+      const response = await fetch(`${API_URL}${id}/update/`, {  // Use correct update URL
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...task, completed: !task.completed }),
@@ -63,15 +64,17 @@ const App = () => {
     }
   };
 
+  // Start editing a task
   const startEditing = (id) => {
     setTasks(tasks.map((task) => (task.id === id ? { ...task, editing: true, editText: task.text } : task)));
   };
 
+  // Confirm editing a task
   const confirmEdit = async (id) => {
     const task = tasks.find((task) => task.id === id);
     if (!task || !task.editText.trim()) return;
     try {
-      const response = await fetch(`${API_URL}${id}/`, {
+      const response = await fetch(`${API_URL}${id}/update/`, {  // Use correct update URL
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...task, text: task.editText }),
@@ -84,15 +87,17 @@ const App = () => {
     }
   };
 
+  // Delete a task
   const deleteTask = async (id) => {
     try {
-      await fetch(`${API_URL}${id}/`, { method: "DELETE" });
-      fetchTasks();
+      await fetch(`${API_URL}${id}/delete/`, { method: "DELETE" });  // Use correct delete URL
+      fetchTasks();  // Refresh tasks after deletion
     } catch (error) {
       console.error("Error deleting task:", error);
     }
   };
 
+  // Filter tasks based on completion status
   const filteredTasks = tasks.filter((task) => {
     if (filter === "completed") return task.completed;
     if (filter === "pending") return !task.completed;
@@ -118,7 +123,11 @@ const App = () => {
         {filteredTasks.map((task) => (
           <li key={task.id} className={`task-item ${task.completed ? "completed" : ""}`}>
             <div className="task-content">
-              <input type="checkbox" checked={task.completed} onChange={() => toggleComplete(task.id)} />
+              <input
+                type="checkbox"
+                checked={task.completed}
+                onChange={() => toggleComplete(task.id)}
+              />
               {task.editing ? (
                 <input
                   type="text"
@@ -135,19 +144,31 @@ const App = () => {
             </div>
             <div className="task-buttons">
               {task.editing ? (
-                <button className="save-btn" onClick={() => confirmEdit(task.id)}>Save</button>
+                <button className="save-btn" onClick={() => confirmEdit(task.id)}>
+                  Save
+                </button>
               ) : (
-                <button className="edit-btn" onClick={() => startEditing(task.id)}>Edit</button>
+                <button className="edit-btn" onClick={() => startEditing(task.id)}>
+                  Edit
+                </button>
               )}
-              <button className="delete-btn" onClick={() => deleteTask(task.id)}>Delete</button>
+              <button className="delete-btn" onClick={() => deleteTask(task.id)}>
+                Delete
+              </button>
             </div>
           </li>
         ))}
       </ul>
       <div className="filter-buttons">
-        <button className={filter === "all" ? "active" : ""} onClick={() => setFilter("all")}>All</button>
-        <button className={filter === "completed" ? "active" : ""} onClick={() => setFilter("completed")}>Completed</button>
-        <button className={filter === "pending" ? "active" : ""} onClick={() => setFilter("pending")}>Pending</button>
+        <button className={filter === "all" ? "active" : ""} onClick={() => setFilter("all")}>
+          All
+        </button>
+        <button className={filter === "completed" ? "active" : ""} onClick={() => setFilter("completed")}>
+          Completed
+        </button>
+        <button className={filter === "pending" ? "active" : ""} onClick={() => setFilter("pending")}>
+          Pending
+        </button>
       </div>
     </div>
   );
