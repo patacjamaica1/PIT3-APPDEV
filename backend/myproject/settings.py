@@ -25,13 +25,15 @@ SECRET_KEY = "django-insecure-whg9&3s&k7h$z0x^s6b1p+x6u1mf@)f(fql&!!-8#r#xu1(xf&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://pit3-appdev.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'pit3-appdev.onrender.com']
 CORS_ALLOWED_ORIGINS = [
     'https://patacjamaica1.github.io',
     ]
+CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+CORS_ALLOW_HEADERS = ["*"]
 
+CORS_ALLOW_CREDENTIALS = True
 
-# Application definition
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -40,6 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
     "rest_framework",
     "myapp",
 ]
@@ -47,6 +50,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
