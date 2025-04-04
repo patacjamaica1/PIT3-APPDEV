@@ -29,7 +29,7 @@ const App = () => {
   const addTask = async () => {
     if (newTask.trim() === "") return;
     try {
-      await fetch("http://127.0.0.1:8000/api/tasks/", {
+      await fetch("http://127.0.0.1:8000/api/todos/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: newTask.trim(), completed: false }),
@@ -45,7 +45,7 @@ const App = () => {
     const task = tasks.find((task) => task.id === id);
     if (!task) return;
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/tasks/${id}/`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/todos/${id}/`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...task, completed: !task.completed }),
@@ -66,7 +66,7 @@ const App = () => {
     const task = tasks.find((task) => task.id === id);
     if (!task || !task.editText.trim()) return;
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/tasks/${id}/`, {
+      const response = await fetch(`http://127.0.0.1:8000/api/todos/${id}/`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...task, text: task.editText }),
@@ -81,7 +81,7 @@ const App = () => {
 
   const deleteTask = async (id) => {
     try {
-      await fetch(`http://127.0.0.1:8000/api/tasks/${id}/`, { method: "DELETE" });
+      await fetch(`http://127.0.0.1:8000/api/todos/${id}/`, { method: "DELETE" });
       fetchTasks(); // Refresh the task list after deletion
     } catch (error) {
       console.error("Error deleting task:", error);
