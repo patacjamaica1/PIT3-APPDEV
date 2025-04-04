@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8w*iynjh$7#an!r3rmtmyf&$o2z6d8@zw54nweu4qy+9lzfuxh'
+SECRET_KEY = 'django-insecure-whg9&3s&k7h$z0x^s6b1p+x6u1mf@)f(fql&!!-8#r#xu1(xf&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,7 +31,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['pit3-appdev.onrender.com']
 
 CORS_ALLOWED_ORIGINS = [
-    'https://front-ended.netlify.app/',
+    'https://front-ended.netlify.app',
 ]
 
 # Application definition
