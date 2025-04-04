@@ -12,23 +12,11 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "your-default-secret-key")
 DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
 
 # Allowed hosts
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "localhost",
-    "pit3-appdev.onrender.com",
-  
-]
 
-# CORS settings
-CORS_ALLOWED_ORIGINS = [
-  
-    "https://front-ended.netlify.app",
-    
-]
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 CORS_ALLOW_HEADERS = ["*"]
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_ALL_ORIGINS = True  # Ensure it's explicitly set to False
+CORS_ALLOW_ALL_ORIGINS = False  # Ensure it's explicitly set to False
 
 # Application definition
 INSTALLED_APPS = [
