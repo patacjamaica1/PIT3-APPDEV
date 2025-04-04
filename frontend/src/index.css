@@ -1,3 +1,4 @@
+/* General Reset */
 * {
   margin: 0;
   padding: 0;
@@ -6,153 +7,178 @@
 }
 
 body {
-  transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+  transition: background 0.3s;
 }
 
-/* Light and Dark Mode */
-.light {
-  background-color: #f9f9f9;
-  color: navy;
+/* Container */
+.container {
+  width: 400px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 .dark {
-  background-color: #1e1e1e;
-  color: #3634d1;
+  background-color: #222;
+  color: white;
 }
 
-/* Main Container */
-.container {
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  border-radius: 30px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  border-color: #550b0b;
-  border-width: 10%;
+.dark .container {
+  background: #333;
+  color: white;
 }
 
-/* Input Field */
-input[type="text"] {
-  width: 50%;
+/* Dark Mode Button */
+.dark-mode-toggle {
+  background: royalblue;
+  color: white;
+  border: none;
   padding: 10px;
-  margin: 10px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dark-mode-toggle:hover {
+  background: darkblue;
+}
+
+/* Task Input */
+.task-input {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.task-input input {
+  flex: 1;
+  padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 10px;
-  border-width: 0 cap;
-  border-color: #007bff;
+  border-radius: 5px;
+}
+
+.task-input button {
+  background: green;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.task-input button:hover {
+  background: darkgreen;
 }
 
 /* Task List */
 .task-list {
   list-style: none;
-  padding: 0;
-  color: rgb(221, 175, 114);
+  margin-top: 20px;
 }
 
-.task-list li {
+.task-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: #fafafa;
   padding: 10px;
-  margin: 5px 0;
-  border-radius: 25;
-  background: #fff;
-  transition: 0.3s;
-  color: rgb(56, 33, 3);
+  border-radius: 5px;
+  margin-bottom: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.task-list li.completed {
+.dark .task-item {
+  background: #444;
+}
+
+.task-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.task-item input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.completed span {
   text-decoration: line-through;
-  color: rgb(151, 93, 93);
-  background: #110101;
+  color: gray;
 }
 
 /* Buttons */
-button {
-  padding: 8px 12px;
-  margin: 5px;
+.task-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.task-buttons button {
   border: none;
-  border-radius: 5px;
+  padding: 5px 8px;
+  border-radius: 3px;
   cursor: pointer;
-  transition: 0.3s;
-  color: #41110c;
-  border-width: 0 cap;
+  font-size: 14px;
 }
 
-button:hover {
-  opacity: 0.8;
-}
-
-/* Edit Button */
 .edit-btn {
-  background-color: #79b85c;
-  color: black;
-  font-weight: bold;
+  background: orange;
+  color: white;
 }
 
 .edit-btn:hover {
-  background-color: #6fa34f;
+  background: darkorange;
 }
 
-/* Save Button */
-.save-btn {
-  background-color: #28a745;
-  color: white;
-  font-weight: bold;
-  padding: 10px 16px;
-  border-radius: 8px;
-  transition: background-color 0.3s ease-in-out;
-}
-
-.save-btn:hover {
-  background-color: #218838;
-}
-
-/* Delete Button */
 .delete-btn {
-  background-color: #dc3545;
+  background: red;
   color: white;
-  font-weight: bold;
-  padding: 10px 16px;
-  border-radius: 8px;
-  transition: background-color 0.3s ease-in-out;
 }
 
 .delete-btn:hover {
-  background-color: #c82333;
+  background: darkred;
 }
 
-/* Dark Mode Button */
-.dark-mode-toggle {
-  background-color: #007bff;
+.save-btn {
+  background: blue;
   color: white;
-  padding: 10px 15px;
-  border-radius: 8px;
 }
 
-.dark-mode-toggle:hover {
-  background-color: #0056b3;
+.save-btn:hover {
+  background: darkblue;
 }
 
 /* Filter Buttons */
 .filter-buttons {
-  margin-top: 15px;
-  color: #75331f;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
 .filter-buttons button {
-  background-color: #ccc;
-  color: black;
+  flex: 1;
+  padding: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
 }
 
-.filter-buttons button.active {
-  font-weight: bold;
-  background-color: #007bff;
+.filter-buttons .active {
+  background: royalblue;
   color: white;
+  font-weight: bold;
 }
 
-/* Checkbox */
-input[type="checkbox"] {
-  margin-right: 10px;
+.filter-buttons button:not(.active) {
+  background: #ccc;
+}
+
+.filter-buttons button:not(.active):hover {
+  background: #bbb;
 }

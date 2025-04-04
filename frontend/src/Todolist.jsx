@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "./index.css";
 
+const API_URL = "https://your-backend-service.onrender.com/api/todos/";
+
 const App = () => {
   const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState("all");
-  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true");
   const [newTask, setNewTask] = useState("");
+  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true");
 
+  // Apply dark mode to the full window
   useEffect(() => {
     localStorage.setItem("darkMode", darkMode);
+    document.body.classList.toggle("dark", darkMode);
   }, [darkMode]);
 
   useEffect(() => {
@@ -17,7 +21,7 @@ const App = () => {
 
   const fetchTasks = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/tasks/");
+      const response = await fetch(API_URL);
       if (!response.ok) throw new Error("Failed to fetch tasks");
       const data = await response.json();
       setTasks(data);
@@ -29,12 +33,12 @@ const App = () => {
   const addTask = async () => {
     if (newTask.trim() === "") return;
     try {
-      await fetch("http://127.0.0.1:8000/api/todos/", {
+      await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: newTask.trim(), completed: false }),
       });
-      fetchTasks(); // Refresh the task list
+      fetchTasks();
       setNewTask("");
     } catch (error) {
       console.error("Error adding task:", error);
@@ -45,7 +49,7 @@ const App = () => {
     const task = tasks.find((task) => task.id === id);
     if (!task) return;
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/todos/${id}/`, {
+      const response = await fetch(`${API_URL}${id}/`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...task, completed: !task.completed }),
@@ -66,7 +70,7 @@ const App = () => {
     const task = tasks.find((task) => task.id === id);
     if (!task || !task.editText.trim()) return;
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/todos/${id}/`, {
+      const response = await fetch(`${API_URL}${id}/`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...task, text: task.editText }),
@@ -81,8 +85,8 @@ const App = () => {
 
   const deleteTask = async (id) => {
     try {
-      await fetch(`http://127.0.0.1:8000/api/todos/${id}/`, { method: "DELETE" });
-      fetchTasks(); // Refresh the task list after deletion
+      await fetch(`${API_URL}${id}/`, { method: "DELETE" });
+      fetchTasks();
     } catch (error) {
       console.error("Error deleting task:", error);
     }
@@ -95,21 +99,26 @@ const App = () => {
   });
 
   return (
-    <div className={`container ${darkMode ? "dark" : "light"}`}>
+    <div className="container">
       <button className="dark-mode-toggle" onClick={() => setDarkMode(!darkMode)}>
         {darkMode ? "Light Mode" : "Dark Mode"}
       </button>
       <h2>To-Do List</h2>
       <div className="task-input">
-        <input type="text" placeholder="Add a new task" value={newTask} onChange={(e) => setNewTask(e.target.value)} />
+        <input
+          type="text"
+          placeholder="Add a new task"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+        />
         <button onClick={addTask}>Add Task</button>
       </div>
       <ul className="task-list">
         {filteredTasks.map((task) => (
-          <li key={task.id} className={task.completed ? "completed" : ""}>
-            <input type="checkbox" checked={task.completed} onChange={() => toggleComplete(task.id)} />
-            {task.editing ? (
-              <>
+          <li key={task.id} className={`task-item ${task.completed ? "completed" : ""}`}>
+            <div className="task-content">
+              <input type="checkbox" checked={task.completed} onChange={() => toggleComplete(task.id)} />
+              {task.editing ? (
                 <input
                   type="text"
                   value={task.editText || ""}
@@ -119,15 +128,18 @@ const App = () => {
                   onKeyDown={(e) => e.key === "Enter" && confirmEdit(task.id)}
                   autoFocus
                 />
-                <button onClick={() => confirmEdit(task.id)}>Save</button>
-              </>
-            ) : (
-              <span>{task.text}</span>
-            )}
-            <button className="edit-btn" onClick={() => startEditing(task.id)}>
-              Edit
-            </button>
-            <button className="delete-btn" onClick={() => deleteTask(task.id)}>Delete</button>
+              ) : (
+                <span>{task.text}</span>
+              )}
+            </div>
+            <div className="task-buttons">
+              {task.editing ? (
+                <button className="save-btn" onClick={() => confirmEdit(task.id)}>Save</button>
+              ) : (
+                <button className="edit-btn" onClick={() => startEditing(task.id)}>Edit</button>
+              )}
+              <button className="delete-btn" onClick={() => deleteTask(task.id)}>Delete</button>
+            </div>
           </li>
         ))}
       </ul>
