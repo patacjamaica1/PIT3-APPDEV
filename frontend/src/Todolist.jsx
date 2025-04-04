@@ -14,14 +14,13 @@ const App = () => {
     document.body.classList.toggle("dark", darkMode);
   }, [darkMode]);
 
-  // Fetch tasks from the backend
   useEffect(() => {
     fetchTasks();
   }, []);
 
   const fetchTasks = async () => {
     try {
-      const response = await fetch(`${API_URL}fetch/`);  // Use 'fetch/' endpoint
+      const response = await fetch(`${API_URL}fetch/`);
       if (!response.ok) throw new Error("Failed to fetch tasks");
       const data = await response.json();
       setTasks(data);
@@ -30,28 +29,26 @@ const App = () => {
     }
   };
 
-  // Add a new task
   const addTask = async () => {
     if (newTask.trim() === "") return;
     try {
       await fetch(`${API_URL}create/`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: newTask.trim(), completed: false }),
+        body: JSON.stringify({ title: newTask.trim(), completed: false }),
       });
-      fetchTasks();  // Refresh tasks after adding
+      fetchTasks();
       setNewTask("");
     } catch (error) {
       console.error("Error adding task:", error);
     }
   };
 
-  // Toggle task completion
   const toggleComplete = async (id) => {
     const task = tasks.find((task) => task.id === id);
     if (!task) return;
     try {
-      const response = await fetch(`${API_URL}${id}/update/`, {  // Use correct update URL
+      const response = await fetch(`${API_URL}${id}/update/`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...task, completed: !task.completed }),
@@ -64,40 +61,40 @@ const App = () => {
     }
   };
 
-  // Start editing a task
   const startEditing = (id) => {
-    setTasks(tasks.map((task) => (task.id === id ? { ...task, editing: true, editText: task.text } : task)));
+    setTasks(tasks.map((task) =>
+      task.id === id ? { ...task, editing: true, editText: task.title } : task
+    ));
   };
 
-  // Confirm editing a task
   const confirmEdit = async (id) => {
     const task = tasks.find((task) => task.id === id);
     if (!task || !task.editText.trim()) return;
     try {
-      const response = await fetch(`${API_URL}${id}/update/`, {  // Use correct update URL
+      const response = await fetch(`${API_URL}${id}/update/`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...task, text: task.editText }),
+        body: JSON.stringify({ ...task, title: task.editText }),
       });
       if (!response.ok) throw new Error("Failed to update task");
       const updatedTask = await response.json();
-      setTasks(tasks.map((t) => (t.id === updatedTask.id ? { ...updatedTask, editing: false } : t)));
+      setTasks(tasks.map((t) =>
+        t.id === updatedTask.id ? { ...updatedTask, editing: false } : t
+      ));
     } catch (error) {
       console.error("Error updating task:", error);
     }
   };
 
-  // Delete a task
   const deleteTask = async (id) => {
     try {
-      await fetch(`${API_URL}${id}/delete/`, { method: "DELETE" });  // Use correct delete URL
-      fetchTasks();  // Refresh tasks after deletion
+      await fetch(`${API_URL}${id}/delete/`, { method: "DELETE" });
+      fetchTasks();
     } catch (error) {
       console.error("Error deleting task:", error);
     }
   };
 
-  // Filter tasks based on completion status
   const filteredTasks = tasks.filter((task) => {
     if (filter === "completed") return task.completed;
     if (filter === "pending") return !task.completed;
@@ -133,13 +130,15 @@ const App = () => {
                   type="text"
                   value={task.editText || ""}
                   onChange={(e) =>
-                    setTasks(tasks.map((t) => (t.id === task.id ? { ...t, editText: e.target.value } : t)))
+                    setTasks(tasks.map((t) =>
+                      t.id === task.id ? { ...t, editText: e.target.value } : t
+                    ))
                   }
                   onKeyDown={(e) => e.key === "Enter" && confirmEdit(task.id)}
                   autoFocus
                 />
               ) : (
-                <span>{task.text}</span>
+                <span>{task.title}</span>
               )}
             </div>
             <div className="task-buttons">
