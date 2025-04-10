@@ -1,18 +1,27 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated 
 from .models import TodoItem
 from .serializers import TodoItemSerializer
 
 # View to fetch all To-Do items
+
+
 class TodoListView(APIView):
+    permission_classes = [IsAuthenticated]  # Require authentication
+
     def get(self, request, *args, **kwargs):
         todos = TodoItem.objects.all()  # Get all To-Do items
         serializer = TodoItemSerializer(todos, many=True)
         return Response(serializer.data)
 
 # View to create a new To-Do item
+
+
 class TodoCreateView(APIView):
+    permission_classes = [IsAuthenticated]  # Require authentication
+
     def post(self, request, *args, **kwargs):
         serializer = TodoItemSerializer(data=request.data)
         if serializer.is_valid():
@@ -21,7 +30,11 @@ class TodoCreateView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # View to retrieve, update or delete a specific To-Do item
+
+
 class TodoDetailView(APIView):
+    permission_classes = [IsAuthenticated]  # Require authentication
+
     def get(self, request, pk, *args, **kwargs):
         try:
             todo = TodoItem.objects.get(pk=pk)  # Get To-Do item by pk
@@ -53,7 +66,11 @@ class TodoDetailView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 # View to update a specific To-Do item (can be part of TodoDetailView, or separate)
+
+
 class TodoUpdateView(APIView):
+    permission_classes = [IsAuthenticated]  # Require authentication
+
     def put(self, request, pk, *args, **kwargs):
         try:
             todo = TodoItem.objects.get(pk=pk)
@@ -67,7 +84,11 @@ class TodoUpdateView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # View to delete a specific To-Do item (can be part of TodoDetailView, or separate)
+
+
 class TodoDeleteView(APIView):
+    permission_classes = [IsAuthenticated]  # Require authentication
+
     def delete(self, request, pk, *args, **kwargs):
         try:
             todo = TodoItem.objects.get(pk=pk)
@@ -76,3 +97,12 @@ class TodoDeleteView(APIView):
 
         todo.delete()  # Delete To-Do item
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+# Secure view to greet authenticated users
+
+
+class SecureHelloView(APIView):
+    permission_classes = [IsAuthenticated]  # Require authentication
+
+    def get(self, request):
+        return Response({"message": f"Hello, {request.user.username}!"})

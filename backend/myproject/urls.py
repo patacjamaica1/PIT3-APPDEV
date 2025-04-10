@@ -16,8 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.authtoken.views import obtain_auth_token
+from myapp.views import SecureHelloView 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/todos/', include('myapp.urls')), 
+    path('api/todos/', include('myapp.urls')),  # Ensure 'myapp' is the correct name of your app
+    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),  # Added a name for clarity
+    path('secure-hello/', SecureHelloView.as_view(), name='secure_hello'),  # Added a name for clarity
 ]
