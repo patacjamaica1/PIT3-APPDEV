@@ -34,6 +34,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://front-ended.netlify.app',
 ]
 
+
 # Application definition
 
 INSTALLED_APPS = [
