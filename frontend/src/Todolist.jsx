@@ -20,7 +20,12 @@ const App = () => {
 
   const fetchTasks = async () => {
     try {
-      const response = await fetch(`${API_URL}fetch/`);
+      const response = await fetch(`${API_URL}fetch/`, {
+        headers: {
+          "Authorization": "Token ca4329f1798cae4376fc389f9fb914ad0f9e945cs",
+          "Content-Type": "application/json"
+        }
+      });
       if (!response.ok) throw new Error("Failed to fetch tasks");
       const data = await response.json();
       setTasks(data);
